@@ -15,19 +15,19 @@ public abstract class BiConditional<T> {
             this.o2 = o2;
         }
     }
-
     final private Output<T> output1;
     final private Output<T> output2;
 
     BiConditional(Output<T> input, Function decider) {
-        List<Output<T>> outputs = input.conditionalSplit(2, val -> {
-
+        List<Output<T>>outputs = input.conditionalSplit(2, val -> {
+            return conditionalSplit(val, decider);
         });
 
         output1 = outputs.get(0);
         output2 = outputs.get(1);
+
     }
 
 
-    abstract Result<T> conditionalSplit(T input);
+    abstract Integer conditionalSplit(T input, Function f);
 }

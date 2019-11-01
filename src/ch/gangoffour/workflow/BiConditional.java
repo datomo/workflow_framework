@@ -1,7 +1,7 @@
 package ch.gangoffour.workflow;
 
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,19 +15,26 @@ public abstract class BiConditional<T> {
             this.o2 = o2;
         }
     }
-    final private Output<T> output1;
-    final private Output<T> output2;
+    final private Output<T> outputTrue;
+    final private Output<T> outputFalse;
 
-    BiConditional(Output<T> input, Function decider) {
+    BiConditional(Output<T> input) {
         List<Output<T>>outputs = input.conditionalSplit(2, val -> {
-            return conditionalSplit(val, decider);
+            return conditionalSplit(val, v -> takeFirstBranch(v) ? 0 : 1);
         });
 
-        output1 = outputs.get(0);
-        output2 = outputs.get(1);
+        outputTrue = outputs.get(0);
+        outputFalse = outputs.get(1);
 
     }
 
+    public Output<T> getOutputTrue() {
+        return outputTrue;
+    }
 
-    abstract Integer conditionalSplit(T input, Function f);
+    public Output<T> getOutputFalse() {
+        return outputFalse;
+    }
+
+    abstract boolean takeFirstBranch(T input);
 }

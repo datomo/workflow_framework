@@ -18,7 +18,7 @@ public abstract class BiConditional<T> {
     final private Output<T> outputTrue;
     final private Output<T> outputFalse;
 
-    BiConditional(Output<T> input) {
+    public BiConditional(Output<T> input) {
         List<Output<T>>outputs = input.conditionalSplit(2, val -> {
             return takeFirstBranch(val) ? 0 : 1;
         });

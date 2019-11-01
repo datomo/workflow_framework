@@ -36,5 +36,5 @@ public abstract class BiSplitter<T> {
         return output2;
     }
 
-    abstract Result<T> split(T input);
+    protected abstract Result<T> split(T input);
 }

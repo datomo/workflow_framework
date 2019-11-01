@@ -44,5 +44,5 @@ public abstract class TriSplitter<T> {
         return output3;
     }
 
-    abstract Result<T> split(T input);
+    protected abstract Result<T> split(T input);
 }

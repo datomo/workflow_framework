@@ -4,7 +4,7 @@ public abstract class BiJoiner<T> {
 
     private final Output<T> output;
 
-    public BiJoiner<T>(Output<T> input0, Output<T> input1) {
+    public BiJoiner(Output<T> input0, Output<T> input1) {
         output = input0.combine(input1, this::combine);
     }
 

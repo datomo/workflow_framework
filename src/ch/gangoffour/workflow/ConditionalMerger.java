@@ -6,7 +6,7 @@ public class ConditionalMerger<T> {
 
     private final Output<T> output;
 
-    public ConditionalMerger<T>(Output<T>... outputs) {
+    public ConditionalMerger(Output<T>... outputs) {
         output = Output.merge(Arrays.asList(outputs));
     }
 

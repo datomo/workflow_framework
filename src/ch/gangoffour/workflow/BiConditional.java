@@ -20,7 +20,7 @@ public abstract class BiConditional<T> {
 
     BiConditional(Output<T> input) {
         List<Output<T>>outputs = input.conditionalSplit(2, val -> {
-            return conditionalSplit(val, v -> takeFirstBranch(v) ? 0 : 1);
+            return takeFirstBranch(val) ? 0 : 1;
         });
 
         outputTrue = outputs.get(0);

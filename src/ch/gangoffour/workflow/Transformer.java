@@ -7,5 +7,9 @@ public abstract class Transformer<T> {
       output = input.map(this::transform);
     }
 
+    public Output<T> getOutput() {
+        return output;
+    }
+
     protected abstract T transform(T value);
 }

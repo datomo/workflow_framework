@@ -18,7 +18,7 @@ public abstract class BiSplitter<T> {
     final private Output<T> output1;
     final private Output<T> output2;
 
-    BiSplitter(Output<T> input) {
+    protected BiSplitter(Output<T> input) {
         List<Output<T>> outputs = input.split(2, val -> {
             Result<T> res = split(val);
             return Stream.of(res.o1, res.o2).collect(Collectors.toList());

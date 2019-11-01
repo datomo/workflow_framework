@@ -2,9 +2,47 @@
 
 This framework is part of a exercise in the "Software Architecture" lecture at university Basel.
 
+## Exercise Answers
+
+The answers to the given exercise can be found in
+[ExerciseAnswers](ExcerciseAnswers.md)
+
 ## Getting Started
 
-No setup process required.
+Simple example of our workflow framework using Doubles.
+
+```java
+FixedSender<Double> sender = new FixedSender<>(2.00, 3.00, 4.00, -3.5);
+Multiplier times2 = new Multiplier(sender.getOutput(),2);
+new PrintReceiver<>(times2.getOutput());
+sender.start();
+```
+```java
+//output
+4.0
+6.0
+8.0
+-7.0
+```
+
+Workflow nodes for other types can easily be implemented.
+For instance:
+
+```java
+public class Reverser extends Transformer<String> {
+
+    public Reverser(Output<String> input){
+        super(input);
+    }
+
+    @Override
+    protected String transform(String value) {
+        return new StringBuilder(value).reverse().toString();
+    }
+}
+```
+
+More elaborate example can be found in [main](src/ch/gangoffour/workflow/main/Workflow.java)
 
 ### Prerequisites
 
@@ -23,9 +61,9 @@ This framework is mostly barebones at the moment so dont expect too much functio
 
 ## Authors
 
-* **Isabel Geissmann** - 
-* **Jannik Jaberg** - 
-* **Rik de Graaff** - 
+* **Isabel Geissmann** - [isabelge](https://github.com/isabelge)
+* **Jannik Jaberg** - [cptunderground](https://github.com/cptunderground)
+* **Rik de Graaff** - [overacter](https://github.com/overacter)
 * **David Lengweiler** - [datomo](https://github.com/datomo)
 
 

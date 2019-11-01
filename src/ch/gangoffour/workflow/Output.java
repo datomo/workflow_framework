@@ -8,6 +8,10 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Output or input object
+ * @param <T> generic format of the output
+ */
 public class Output<T> {
     static class Token {
         static int highestHash = 0;
@@ -36,7 +40,7 @@ public class Output<T> {
         send.accept(this::receiveValue);
     }
 
-    public Output<T> merge(List<Output<T>> inputs) {
+    public static <T> Output<T> merge(List<Output<T>> inputs) {
         return new Output<>(sender -> {
             inputs.forEach(in -> {
                 waitFor(Collections.singletonList(in), l -> {
@@ -111,7 +115,11 @@ public class Output<T> {
     }
 
     private void receiveValue(T value) {
-        queues.values().forEach(q -> q.add(value));
+        queues.keySet().forEach(key -> {
+            Queue<T> queue = queues.get(key);
+            queue.add(value);
+            listeners.get(key).accept(queue);
+        });
     }
 
     void onOutput(Consumer<Queue<T>> listener) {
@@ -130,7 +138,7 @@ public class Output<T> {
             Queue<T> queue = queues.get(i);
             output.onOutput(q -> {
                 queue.add(q.remove());
-                if (queues.stream().noneMatch(qu -> qu.size() >= n)) {
+                if (queues.stream().noneMatch(qu -> qu.size() < n)) {
                     listener.accept(queues);
                 }
             });
@@ -142,8 +150,5 @@ public class Output<T> {
     }
 }
 
-/**
- * Output object which can be used by compatible input object
- * @param <T> generic format of the output
- */
+
 

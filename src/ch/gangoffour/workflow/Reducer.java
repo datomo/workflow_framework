@@ -1,11 +1,13 @@
 package ch.gangoffour.workflow;
 
+import java.util.List;
+
 public abstract class Reducer<T> {
 
     private final Output<T> output;
 
-    public Reducer(List<Output<T>> inputs) {
-        output = Output.reduce(inputs, getInitial(), this::combine);
+    public Reducer(List<Output<T>> inputs, T initial) {
+        output = Output.reduce(inputs, initial, this::combine);
     }
 
     public Output<T> getOutput() {
@@ -13,6 +15,4 @@ public abstract class Reducer<T> {
     }
 
     protected abstract T combine(T val0, T val1);
-    
-    protected abstract T getInitial();
 }

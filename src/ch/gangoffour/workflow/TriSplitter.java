@@ -1,10 +1,11 @@
 package ch.gangoffour.workflow;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class TriSplitter<T> {
+public abstract class TriSplitter<T> extends WorkflowNode<T> {
     public static class Result<T> {
         final T o1;
         final T o2;
@@ -22,8 +23,9 @@ public abstract class TriSplitter<T> {
     final private Output<T> output3;
 
     TriSplitter(Output<T> input) {
+        super(NodeType.SPLITTER);
         List<Output<T>> outputs = input.split(3, val -> {
-            Result<T> res = split(val);
+            Result<T> res = splitAux(val);
             return Stream.of(res.o1, res.o2, res.o3).collect(Collectors.toList());
         });
 
@@ -42,6 +44,16 @@ public abstract class TriSplitter<T> {
 
     public Output<T> getOutput3() {
         return output3;
+    }
+
+    private Result<T> splitAux(T val) {
+        Result<T> res = split(val);
+        HashMap<String, T> outputs = new HashMap<>();
+        outputs.put("output 1", res.o1);
+        outputs.put("output 2", res.o2);
+        outputs.put("output 3", res.o3);
+        log(val, outputs);
+        return res;
     }
 
     protected abstract Result<T> split(T input);

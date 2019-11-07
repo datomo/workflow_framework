@@ -7,6 +7,23 @@ This framework is part of a exercise in the "Software Architecture" lecture at u
 The answers to the given exercise can be found in
 [ExerciseAnswers](ExcerciseAnswers.md)
 
+## Additional Functionality Example for exe 4
+```java
+// Example use of our executable message in a simple workflow
+        FixedSender<Message<Integer, ExecutableBody<String, String>>> messageSender = new FixedSender<>(
+                new Message<>(0, new ExecutableBody<>(m -> {
+                        System.out.println(m);
+                        sender.start();
+                    }, "this is the body")));
+        new ExecutingReceiver<>(messageSender.getOutput(), "Hello, World!");
+        messageSender.start();
+```
+
+## UML
+
+[Link to the UML](Package workflow.png)
+
+
 ## Getting Started
 
 Simple example of our workflow framework using Doubles.

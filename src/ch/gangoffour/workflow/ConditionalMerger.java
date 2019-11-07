@@ -6,6 +6,7 @@ public class ConditionalMerger<T> {
 
     private final Output<T> output;
 
+    @SafeVarargs
     public ConditionalMerger(Output<T>... outputs) {
         output = Output.merge(Arrays.asList(outputs));
     }

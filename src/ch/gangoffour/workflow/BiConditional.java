@@ -1,11 +1,9 @@
 package ch.gangoffour.workflow;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public abstract class BiConditional<T> {
+public abstract class BiConditional<T> extends WorkflowNode<T> {
     public static class Result<T> {
         final T o1;
         final T o2;
@@ -15,17 +13,26 @@ public abstract class BiConditional<T> {
             this.o2 = o2;
         }
     }
+
     final private Output<T> outputTrue;
     final private Output<T> outputFalse;
 
     protected BiConditional(Output<T> input) {
-        List<Output<T>>outputs = input.conditionalSplit(2, val -> {
-            return takeFirstBranch(val) ? 0 : 1;
+        super(NodeType.BRANCHER);
+        List<Output<T>> outputs = input.conditionalSplit(2, val -> {
+            return takeFirstBranchAux(val) ? 0 : 1;
         });
 
         outputTrue = outputs.get(0);
         outputFalse = outputs.get(1);
+    }
 
+    private boolean takeFirstBranchAux(T val) {
+        boolean takeFirst = takeFirstBranch(val);
+        HashMap<String, T> outputs = new HashMap<>();
+        outputs.put("output " + (takeFirst ? "true" : "false"), val);
+        log(val, outputs);
+        return takeFirst;
     }
 
     public Output<T> getOutputTrue() {

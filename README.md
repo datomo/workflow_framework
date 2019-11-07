@@ -21,7 +21,7 @@ messageSender.start();
 
 ## UML
 
-[Link to the UML](Package workflow.png)
+[Link to the UML](package_workflow.png)
 
 
 ## Getting Started

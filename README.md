@@ -10,13 +10,13 @@ The answers to the given exercise can be found in
 ## Additional Functionality Example for exe 4
 ```java
 // Example use of our executable message in a simple workflow
-        FixedSender<Message<Integer, ExecutableBody<String, String>>> messageSender = new FixedSender<>(
-                new Message<>(0, new ExecutableBody<>(m -> {
-                        System.out.println(m);
-                        sender.start();
-                    }, "this is the body")));
-        new ExecutingReceiver<>(messageSender.getOutput(), "Hello, World!");
-        messageSender.start();
+FixedSender<Message<Integer, ExecutableBody<String, String>>> messageSender = new FixedSender<>(
+        new Message<>(0, new ExecutableBody<>(m -> {
+                System.out.println(m);
+                sender.start();
+            }, "this is the body")));
+new ExecutingReceiver<>(messageSender.getOutput(), "Hello, World!");
+messageSender.start();
 ```
 
 ## UML
